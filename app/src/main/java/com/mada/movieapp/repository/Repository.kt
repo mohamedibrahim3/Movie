@@ -15,14 +15,13 @@ class Repository {
             // Handle the error gracefully (log, etc.)
             Response.error(500, okhttp3.ResponseBody.create(null, ""))
         }
-
+    }
         suspend fun getDetailsById(id: Int): Response<Details> {
             return try {
-                RetrofitInstance.api.getDetailsById(id)
+                RetrofitInstance.api.getDetailsById(id = id)
             } catch (e: Exception) {
                 // Handle error gracefully
                 Response.error(500, okhttp3.ResponseBody.create(null, ""))
             }
         }
-    }
 }

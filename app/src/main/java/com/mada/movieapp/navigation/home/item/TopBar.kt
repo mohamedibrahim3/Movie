@@ -1,4 +1,4 @@
-package com.mada.movieapp.item
+package com.mada.movieapp.navigation.home.item
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text

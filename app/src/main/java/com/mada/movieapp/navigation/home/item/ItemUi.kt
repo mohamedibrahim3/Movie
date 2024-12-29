@@ -1,4 +1,4 @@
-package com.mada.movieapp.item
+package com.mada.movieapp.navigation.home.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee

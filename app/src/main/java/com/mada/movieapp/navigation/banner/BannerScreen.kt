@@ -1,6 +1,5 @@
-package com.mada.movieapp.navigation
+package com.mada.movieapp.navigation.banner
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -73,7 +72,7 @@ fun BannerScreen(navController: NavController) {
                 )
             )
             Button(
-                onClick = {  navController.navigate("Home Screen") },
+                onClick = {  navController.navigate("Home screen") },
                 modifier =  Modifier
                     .padding(bottom = 55.dp, start = 20.dp, end = 20.dp)
                     .fillMaxWidth(),

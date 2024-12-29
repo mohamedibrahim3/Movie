@@ -1,4 +1,4 @@
-package com.mada.movieapp.navigation
+package com.mada.movieapp.navigation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.mada.movieapp.item.ItemUi
-import com.mada.movieapp.item.TopBar
+import com.mada.movieapp.navigation.home.item.ItemUi
+import com.mada.movieapp.navigation.home.item.TopBar
 import com.mada.movieapp.viewModel.MoviesViewModel
 
 @Composable
