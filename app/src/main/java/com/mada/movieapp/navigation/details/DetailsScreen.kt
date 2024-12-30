@@ -1,6 +1,8 @@
 package com.mada.movieapp.navigation.details
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
@@ -42,17 +44,14 @@ fun DetailsScreen(id: Int) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
-        if (details != null) {
-            BackGroundPoster(details = details)
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Spacer(modifier = Modifier.height(300.dp)) // Space for the poster
-                DetailsContent(details = details)
-            }
-        } else {
-            LoadingMessage()  // Show loading while fetching the data
+        BackGroundPoster(details = details)
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .verticalScroll(rememberScrollState()), // Add vertical scroll
+            verticalArrangement = Arrangement.Top
+        ) {
+            Spacer(modifier = Modifier.height(570.dp)) // Space for the poster
+            DetailsContent(details = details)
         }
     }
 }
@@ -76,7 +75,8 @@ fun DetailsContent(details: Details) {
         )
         Spacer(modifier = Modifier.height(10.dp))
         Rating(details = details, modifier = Modifier.padding(vertical = 5.dp))
-
+        Spacer(modifier = Modifier.height(10.dp))
+        TextBuilder(icon = Icons.Filled.Person, title = "Summery:", bodyText = details.plot)
         Spacer(modifier = Modifier.height(10.dp))
         TextBuilder(icon = Icons.Filled.Person, title = "Actors:", bodyText = details.actors)
         Spacer(modifier = Modifier.height(15.dp))
