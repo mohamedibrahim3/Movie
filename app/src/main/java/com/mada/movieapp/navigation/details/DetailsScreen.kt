@@ -24,8 +24,8 @@ fun DetailsScreen(id: Int) {
     // Fetch details only once when the screen is first launched
     LaunchedEffect(id) {
         if (!hasFetchedDetails) {
-            movieViewModel.id = id
-            movieViewModel.getDetailsById()
+            movieViewModel.id = id  // Set the id in the ViewModel
+            movieViewModel.getDetailsById(id)  // Fetch movie details based on id
             hasFetchedDetails = true
         }
     }
@@ -33,8 +33,8 @@ fun DetailsScreen(id: Int) {
     val state = movieViewModel.state
     val details = state.detailsData
 
-    if (details == null && state.error != null) {
-        ErrorMessage(state.error)
+    if (state.error != null) {
+        ErrorMessage(state.error)  // Display error if any
         return
     }
 
@@ -52,7 +52,7 @@ fun DetailsScreen(id: Int) {
                 DetailsContent(details = details)
             }
         } else {
-            LoadingMessage()
+            LoadingMessage()  // Show loading while fetching the data
         }
     }
 }
@@ -63,7 +63,7 @@ fun DetailsContent(details: Details) {
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 20.dp, vertical = 20.dp),
-        verticalArrangement = Arrangement.Bottom, // Aligns the content to the bottom
+        verticalArrangement = Arrangement.Bottom, // Align content to the bottom
         horizontalAlignment = Alignment.Start
     ) {
         Text(
@@ -76,8 +76,7 @@ fun DetailsContent(details: Details) {
         )
         Spacer(modifier = Modifier.height(10.dp))
         Rating(details = details, modifier = Modifier.padding(vertical = 5.dp))
-        Spacer(modifier = Modifier.height(20.dp))
-        TextBuilder(icon = Icons.Filled.Info, title = "Summary:", bodyText = details.plot)
+
         Spacer(modifier = Modifier.height(10.dp))
         TextBuilder(icon = Icons.Filled.Person, title = "Actors:", bodyText = details.actors)
         Spacer(modifier = Modifier.height(15.dp))
