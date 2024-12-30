@@ -10,34 +10,59 @@ import com.mada.movieapp.repository.Repository
 import com.mada.movieapp.domain.data.ScreenState
 import kotlinx.coroutines.launch
 
-class MoviesViewModel:ViewModel() {
+class MoviesViewModel(
+    private val repository: Repository = Repository() // Dependency injection with default value
+) : ViewModel() {
 
-    private val repository = Repository()
     var state by mutableStateOf(ScreenState())
     var id by mutableIntStateOf(0)
 
     init {
+        fetchMovies()
+    }
 
+    private fun fetchMovies() {
         viewModelScope.launch {
-            val response = repository.getMovieList(state.page)
-            state = state.copy(
-                movies = response.body()!!.data
-            )
+            try {
+                val response = repository.getMovieList(state.page)
+                if (response.isSuccessful) {
+                    state = state.copy(
+                        movies = response.body()?.data.orEmpty() // Safe handling of nulls
+                    )
+                } else {
+                    // Handle API failure
+                    state = state.copy(
+                        error = "Failed to load movies: ${response.message()}"
+                    )
+                }
+            } catch (e: Exception) {
+                // General exception handling
+                state = state.copy(
+                    error = e.localizedMessage ?: "Unknown error occurred"
+                )
+            }
         }
     }
 
     fun getDetailsById() {
         viewModelScope.launch {
             try {
-                val response = repository.getDetailsById(id = id)
+                val response = repository.getDetailsById(id)
                 if (response.isSuccessful) {
+                    state = response.body()?.let {
+                        state.copy(
+                            detailsData = it
+                        )
+                    }!!
+                } else {
+                    // Handle API failure
                     state = state.copy(
-                        detailsData = response.body()!!
+                        error = "Failed to load details: ${response.message()}"
                     )
                 }
             } catch (e: Exception) {
                 state = state.copy(
-                    //error = e.message
+                    error = e.localizedMessage ?: "Unknown error occurred"
                 )
             }
         }

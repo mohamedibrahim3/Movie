@@ -9,33 +9,40 @@ import androidx.navigation.navArgument
 import com.mada.movieapp.navigation.banner.BannerScreen
 import com.mada.movieapp.navigation.details.DetailsScreen
 import com.mada.movieapp.navigation.home.HomeScreen
-
+import com.mada.movieapp.viewModel.MoviesViewModel
 
 @Composable
-fun Navigation(){
+fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController,
-        startDestination = "Banner screen" ) {
 
-        composable("Banner screen") {
+    NavHost(
+        navController = navController,
+        startDestination = Route.BannerScreen.route
+    ) {
+        composable(route = Route.BannerScreen.route) {
             BannerScreen(navController = navController)
-
         }
-        composable("Home screen") {
+
+        composable(route = Route.HomeScreen.route) {
             HomeScreen(navController = navController)
         }
-        composable("Details screen/{id}",
+
+        composable(
+            route = Route.DetailsScreen.route,
             arguments = listOf(
-                navArgument(
-                    name = "id"
-                ) {
-                    type = NavType.IntType
-                }
+                navArgument("id") { type = NavType.IntType }
             )
-        ) { id ->
-            id.arguments?.getInt("id")?.let { id1 ->
-                DetailsScreen(id = id1)
+        ) { backStackEntry ->
+            val movieId = backStackEntry.arguments?.getInt("id")
+            movieId?.let { id ->
+                DetailsScreen(id = id)
             }
         }
     }
+}
+
+sealed class Route(val route: String) {
+    object BannerScreen : Route("Banner screen")
+    object HomeScreen : Route("Home screen")
+    object DetailsScreen : Route("Details screen/{id}")
 }
